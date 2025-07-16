@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Student - School Management Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>School Management Dashboard</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#students">Student Performance</a>
+      <a href="add-student.html" aria-current="page">Add Student</a>
+    </nav>
+  </header>
+  <main>
+    <section id="add">
+      <h2>Add Student Performance</h2>
+      <form id="studentForm" aria-label="Add Student Performance">
+        <fieldset>
+          <legend class="visually-hidden">Student Information</legend>
+          <label for="name">Student Name</label>
+          <input type="text" id="name" name="name" placeholder="Student Name" required>
+          <label for="class">Class</label>
+          <input type="text" id="class" name="class" placeholder="Class" required>
+          <label for="math">Math Grade</label>
+          <input type="number" id="math" name="math" placeholder="Math Grade" required>
+          <label for="science">Science Grade</label>
+          <input type="number" id="science" name="science" placeholder="Science Grade" required>
+          <label for="english">English Grade</label>
+          <input type="number" id="english" name="english" placeholder="English Grade" required>
+          <label for="attendance">Attendance (%)</label>
+          <input type="number" id="attendance" name="attendance" placeholder="Attendance (%)" required>
+        </fieldset>
+        <button type="submit">Add Student</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

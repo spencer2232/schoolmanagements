@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel - School Management</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+      margin: 0;
+      min-height: 100vh;
+      color: #23293a;
+    }
+    .admin-panel-glass {
+      max-width: 1000px;
+      width: 98vw;
+      margin: 2.5rem auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(79,140,255,0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(79,140,255,0.13);
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 {
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 12px rgba(79,140,255,0.13);
+    }
+    .admin-nav {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 2.2rem;
+    }
+    .admin-nav a {
+      color: #1976d2;
+      font-weight: 700;
+      text-decoration: underline;
+      font-size: 1.13rem;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      background: #f4f6f8;
+      transition: background 0.2s, color 0.2s;
+    }
+    .admin-nav a:hover {
+      background: #4f8cff;
+      color: #fff;
+    }
+    .admin-section {
+      margin-bottom: 2.5rem;
+      background: #f8fbff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+      padding: 1.5rem 1rem;
+    }
+    .admin-section h2 {
+      color: #174ea6;
+      margin-bottom: 1.2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.98);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+    }
+    th, td {
+      border: 1px solid #cfd8dc;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.92);
+    }
+    th {
+      background: #e3f0ff;
+      color: #174ea6;
+      font-weight: 700;
+    }
+    .add-btn {
+      background: linear-gradient(90deg,#4f8cff 0%,#1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover {
+      background: #1976d2;
+    }
+    .delete-btn {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.3rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .delete-btn:hover {
+      background: #b71c1c;
+    }
+    .input-inline {
+      width: 90%;
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      border: 1.5px solid #cfd8dc;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+      background: #f4f6f8;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+  <body>
+    <div style="display:flex;justify-content:flex-end;align-items:center;padding:1.2rem 2.2rem 0 0;">
+      <button id="logoutBtn" style="background:linear-gradient(90deg,#e53935 0%,#ffb300 100%);color:#fff;border:none;border-radius:10px;padding:0.5rem 1.3rem;font-size:1.05rem;font-weight:700;cursor:pointer;transition:background 0.2s;">Logout</button>
+    </div>
+  <div class="admin-panel-glass">
+    <h1>Admin Panel</h1>
+    <div class="admin-nav">
+      <a href="#students">Manage Students</a>
+      <a href="#teachers">Manage Teachers</a>
+      <a href="#classes">Manage Classes</a>
+      <a href="#subjects">Manage Subjects</a>
+      <a href="#reportcards">Manage Report Cards</a>
+      <a href="teacher-dashboard.html" id="adminToTeacher" style="background:#e3f0ff;color:#174ea6;display:none;">Teacher Dashboard</a>
+    </div>
+    <div class="admin-section" id="students">
+      <h2>Students</h2>
+      <button class="add-btn" onclick="addStudentRow()">+ Add Student</button>
+      <table id="studentsTable">
+        <thead>
+          <tr><th>Name</th><th>Class</th><th>Parent Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="pending-parents">
+      <h2>Pending Parent Registrations</h2>
+      <table id="pendingParentsTable">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Phone</th><th>Child</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="pending-teachers">
+      <h2>Pending Teacher Registrations</h2>
+      <table id="pendingTeachersTable">
+        <thead>
+          <tr><th>Name</th><th>Class</th><th>Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="teachers">
+      <h2>Teachers</h2>
+      <button class="add-btn" onclick="addTeacherRow()">+ Add Teacher</button>
+      <table id="teachersTable">
+        <thead>
+          <tr><th>Name</th><th>Subject</th><th>Password</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="classes">
+      <h2>Classes</h2>
+      <button class="add-btn" onclick="addClassRow()">+ Add Class</button>
+      <table id="classesTable">
+        <thead>
+          <tr><th>Class Name</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="subjects">
+      <h2>Subjects</h2>
+      <button class="add-btn" onclick="addSubjectRow()">+ Add Subject</button>
+      <table id="subjectsTable">
+        <thead>
+          <tr><th>Subject Name</th><th>Teacher</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="reportcards">
+      <h2>Report Cards</h2>
+      <div style="color:#888;font-size:1.02rem;">(Feature coming soon: View, edit, and manage all report cards here.)</div>
+    </div>
+  </div>
+  <script>
+    // Show Teacher Dashboard link only for admin
+    if (sessionStorage.getItem('role') === 'admin') {
+      document.getElementById('adminToTeacher').style.display = 'inline-block';
+    }
+    // Logout button logic
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+      });
+    }
+    // Demo data
+    let students = [
+      { name: 'John Banda', class: 'Grade 8A', email: 'parent.john@example.com' },
+      { name: 'Mary Zulu', class: 'Grade 8A', email: 'parent.mary@example.com' }
+    ];
+let teachers = JSON.parse(localStorage.getItem('teachers')) || [
+  { name: 'Mr. Phiri', subject: 'English', password: 'demo' },
+  { name: 'Ms. Banda', subject: 'Mathematics', password: 'demo' }
+];
+    let classes = ['Grade 8A', 'Grade 8B', 'Grade 9A', 'Grade 9B'];
+    let subjects = [
+      { name: 'English', teacher: 'Mr. Phiri' },
+      { name: 'Mathematics', teacher: 'Ms. Banda' }
+    ];
+
+    // Students
+    function renderStudents() {
+      const tbody = document.querySelector('#studentsTable tbody');
+      tbody.innerHTML = '';
+      students.forEach((stu, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input class='input-inline' value='${stu.name}'></td><td><input class='input-inline' value='${stu.class}'></td><td><input class='input-inline' value='${stu.email}'></td><td><button class='delete-btn' onclick='deleteStudent(${idx})'>Delete</button></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function addStudentRow() {
+      students.push({ name: '', class: '', email: '' });
+      renderStudents();
+    }
+    function deleteStudent(idx) {
+      students.splice(idx, 1);
+      renderStudents();
+    }
+    renderStudents();
+
+
+// Pending Parents
+function renderPendingParents() {
+  const tbody = document.querySelector('#pendingParentsTable tbody');
+  tbody.innerHTML = '';
+  let pendingParents = JSON.parse(localStorage.getItem('pendingParents') || '[]');
+  pendingParents.forEach((p, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.name}</td><td>${p.email}</td><td>${p.phone}</td><td>${p.child}</td><td><button class='add-btn' onclick='approveParent(${idx})'>Approve</button> <button class='delete-btn' onclick='rejectParent(${idx})'>Reject</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function approveParent(idx) {
+  let pendingParents = JSON.parse(localStorage.getItem('pendingParents') || '[]');
+  let parents = JSON.parse(localStorage.getItem('parents') || '[]');
+  const p = pendingParents[idx];
+  parents.push({ name: p.name, email: p.email, password: p.password, phone: p.phone, child: p.child });
+  localStorage.setItem('parents', JSON.stringify(parents));
+  pendingParents.splice(idx, 1);
+  localStorage.setItem('pendingParents', JSON.stringify(pendingParents));
+  renderPendingParents();
+}
+function rejectParent(idx) {
+  let pendingParents = JSON.parse(localStorage.getItem('pendingParents') || '[]');
+  pendingParents.splice(idx, 1);
+  localStorage.setItem('pendingParents', JSON.stringify(pendingParents));
+  renderPendingParents();
+}
+renderPendingParents();
+
+// Pending Teachers
+function renderPendingTeachers() {
+  const tbody = document.querySelector('#pendingTeachersTable tbody');
+  tbody.innerHTML = '';
+  let pendingTeachers = JSON.parse(localStorage.getItem('pendingTeachers') || '[]');
+  pendingTeachers.forEach((t, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${t.name}</td><td>${t.classes || ''}</td><td>${t.email}</td><td><button class='add-btn' onclick='approveTeacher(${idx})'>Approve</button> <button class='delete-btn' onclick='rejectTeacher(${idx})'>Reject</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function approveTeacher(idx) {
+  let pendingTeachers = JSON.parse(localStorage.getItem('pendingTeachers') || '[]');
+  let teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+  const t = pendingTeachers[idx];
+  teachers.push({ name: t.name, subject: '', password: t.password, department: t.department, email: t.email, classes: t.classes, phone: t.phone });
+  localStorage.setItem('teachers', JSON.stringify(teachers));
+  pendingTeachers.splice(idx, 1);
+  localStorage.setItem('pendingTeachers', JSON.stringify(pendingTeachers));
+  renderPendingTeachers();
+  renderTeachers();
+}
+function rejectTeacher(idx) {
+  let pendingTeachers = JSON.parse(localStorage.getItem('pendingTeachers') || '[]');
+  pendingTeachers.splice(idx, 1);
+  localStorage.setItem('pendingTeachers', JSON.stringify(pendingTeachers));
+  renderPendingTeachers();
+}
+renderPendingTeachers();
+
+// Teachers
+function renderTeachers() {
+  const tbody = document.querySelector('#teachersTable tbody');
+  tbody.innerHTML = '';
+  let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+  teachers.forEach((t, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><input class='input-inline' value='${t.name}' onchange='updateTeacherField(${idx}, "name", this.value)'></td><td><input class='input-inline' value='${t.subject || ''}' onchange='updateTeacherField(${idx}, "subject", this.value)'></td><td><input class='input-inline' type='text' value='${t.password || ''}' onchange='updateTeacherField(${idx}, "password", this.value)'></td><td><button class='delete-btn' onclick='deleteTeacher(${idx})'>Delete</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function updateTeacherField(idx, field, value) {
+  let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+  teachers[idx][field] = value;
+  localStorage.setItem('teachers', JSON.stringify(teachers));
+}
+function addTeacherRow() {
+  let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+  teachers.push({ name: '', subject: '', password: '' });
+  localStorage.setItem('teachers', JSON.stringify(teachers));
+  renderTeachers();
+}
+function deleteTeacher(idx) {
+  let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+  teachers.splice(idx, 1);
+  localStorage.setItem('teachers', JSON.stringify(teachers));
+  renderTeachers();
+}
+renderTeachers();
+
+    // Classes
+    function renderClasses() {
+      const tbody = document.querySelector('#classesTable tbody');
+      tbody.innerHTML = '';
+      classes.forEach((c, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input class='input-inline' value='${c}'></td><td><button class='delete-btn' onclick='deleteClass(${idx})'>Delete</button></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function addClassRow() {
+      classes.push('');
+      renderClasses();
+    }
+    function deleteClass(idx) {
+      classes.splice(idx, 1);
+      renderClasses();
+    }
+    renderClasses();
+
+    // Subjects
+    function renderSubjects() {
+      const tbody = document.querySelector('#subjectsTable tbody');
+      tbody.innerHTML = '';
+      subjects.forEach((s, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input class='input-inline' value='${s.name}'></td><td><input class='input-inline' value='${s.teacher}'></td><td><button class='delete-btn' onclick='deleteSubject(${idx})'>Delete</button></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function addSubjectRow() {
+      subjects.push({ name: '', teacher: '' });
+      renderSubjects();
+    }
+    function deleteSubject(idx) {
+      subjects.splice(idx, 1);
+      renderSubjects();
+    }
+    renderSubjects();
+  </script>
+</body>
+</html>

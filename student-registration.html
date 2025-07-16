@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Registration - St Francis School</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f4f6f8 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 480px;
+      margin: 3.5rem auto 2rem auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(79,140,255,0.13), 0 1.5px 8px rgba(79,140,255,0.07);
+      padding: 2.7rem 2.2rem 2.2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .container:before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: linear-gradient(135deg, #4f8cff 0%, #90caf9 100%);
+      opacity: 0.13;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #174ea6;
+      margin-bottom: 1.5rem;
+      font-size: 2.3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+    label {
+      font-weight: 600;
+      color: #4f8cff;
+      margin-bottom: 0.3rem;
+      font-size: 1.07rem;
+    }
+    input, select, textarea {
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      border: 1.5px solid #cfd8dc;
+      font-size: 1.09rem;
+      background: #f7faff;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+      box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+    }
+    input:focus, select:focus, textarea:focus {
+      border: 1.5px solid #4f8cff;
+      box-shadow: 0 2px 8px rgba(79,140,255,0.13);
+    }
+    textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    button {
+      background: linear-gradient(90deg, #4f8cff 0%, #1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      font-size: 1.13rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #1976d2 0%, #4f8cff 100%);
+      box-shadow: 0 4px 24px rgba(79,140,255,0.18);
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 2.2rem;
+      color: #4f8cff;
+      text-decoration: underline;
+      font-weight: 600;
+      font-size: 1.08rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>user Registration</h1>
+    <form id="registrationForm">
+      <div>
+        <label for="role">Register As</label>
+        <select id="role" name="role" required>
+          <option value="">Select Role</option>
+          <option value="parent">Parent</option>
+          <option value="teacher">Teacher</option>
+        </select>
+      </div>
+      <div id="commonFields">
+        <div>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+      </div>
+      <div id="teacherFields" style="display:none;">
+      <div id="parentFields" style="display:none;">
+        <div>
+          <label for="parentFullName">Full Name</label>
+          <input type="text" id="parentFullName" name="parentFullName" required>
+        </div>
+        <div>
+          <label for="parentLocation">Location</label>
+          <input type="text" id="parentLocation" name="parentLocation" required>
+        </div>
+        <div>
+          <label for="parentChild">Child's Name(s)</label>
+          <input type="text" id="parentChild" name="parentChild" required placeholder="e.g. John Banda, Mary Zulu">
+        </div>
+        <div>
+          <label for="parentPhoneReg">Phone Number</label>
+          <input type="tel" id="parentPhoneReg" name="parentPhoneReg" pattern="[0-9\-\+ ]{7,15}" required>
+        </div>
+        <div>
+          <label for="parentPassword">Password</label>
+          <input type="password" id="parentPassword" name="parentPassword" required>
+        </div>
+        <div>
+          <label for="parentEmailReg">Email</label>
+          <input type="email" id="parentEmailReg" name="parentEmailReg" required>
+        </div>
+      </div>
+        <div>
+          <label for="department">Department</label>
+          <input type="text" id="department" name="department">
+        </div>
+        <div>
+          <label for="teacherEmail">Email</label>
+          <input type="email" id="teacherEmail" name="teacherEmail">
+          
+        </div>
+        <div>
+          <label for="teacherPassword">Password</label>
+          <input type="password" id="teacherPassword" name="teacherPassword">
+        </div>
+        <div>
+          <label for="teacherClasses">Class(es)</label>
+          <input type="text" id="teacherClasses" name="teacherClasses" placeholder="e.g. Grade 8A, Grade 9B">
+        </div>
+        <div>
+          <label for="teacherPhone">Phone Number</label>
+          <input type="tel" id="teacherPhone" name="teacherPhone" pattern="[0-9\-\+ ]{7,15}">
+        </div>
+      </div>
+     <!--  <div id="studentFields">
+        <div>
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" min="1">
+        </div>
+        <div>
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location">
+        </div>
+        <div>
+          <label for="parentPhone">Parent's Phone Number</label>
+          <input type="tel" id="parentPhone" name="parentPhone" pattern="[0-9\-\+ ]{7,15}">
+        </div>
+        <div>
+          <label for="parentEmail">Parent's Email</label>
+          <input type="email" id="parentEmail" name="parentEmail">
+        </div>
+        <div>
+          <label for="grade">Grade</label>
+          <select id="grade" name="grade">
+            <option value="">Select Grade</option>
+            <option value="Grade 1">Grade 1</option>
+            <option value="Grade 2">Grade 2</option>
+            <option value="Grade 3">Grade 3</option>
+            <option value="Grade 4">Grade 4</option>
+            <option value="Grade 5">Grade 5</option>
+            <option value="Grade 6">Grade 6</option>
+            <option value="form 1">form 1</option>
+            <option value="form 2">form 2</option>
+            <option value="form 3">form 3</option>
+            <option value="form 4">form 4</option>
+          </select>
+        </div
+        <div>
+          <label for="subjects">Subjects Taking</label>
+          <textarea id="subjects" name="subjects" placeholder="List the subjects separated by commas"></textarea>
+        </div>>-->
+      </div>
+    </form>
+    <button type="submit" form="registrationForm">Register</button>
+    <div id="registerMsg" style="text-align:center;margin-top:1rem;"></div>
+    <a href="login.html" class="back-link">&#8592; please login</a>
+    <script>
+      // Show/hide fields based on role
+      const roleSelect = document.getElementById('role');
+      const teacherFields = document.getElementById('teacherFields');
+      const studentFields = document.getElementById('studentFields');
+      const parentFields = document.getElementById('parentFields');
+      roleSelect.addEventListener('change', function() {
+        if (roleSelect.value === 'teacher') {
+          teacherFields.style.display = '';
+          parentFields.style.display = 'none';
+          studentFields.style.display = 'none';
+        } else if (roleSelect.value === 'parent') {
+          teacherFields.style.display = 'none';
+          parentFields.style.display = '';
+          studentFields.style.display = 'none';
+        } else {
+          teacherFields.style.display = 'none';
+          parentFields.style.display = 'none';
+          studentFields.style.display = '';
+        }
+      });
+      // Registration logic
+      document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const role = roleSelect.value;
+        if (role === 'teacher') {
+          // Save as pending teacher
+          let pendingTeachers = JSON.parse(localStorage.getItem('pendingTeachers') || '[]');
+          pendingTeachers.push({
+            name: document.getElementById('name').value,
+            department: document.getElementById('department').value,
+            email: document.getElementById('teacherEmail').value,
+            password: document.getElementById('teacherPassword').value,
+            classes: document.getElementById('teacherClasses').value,
+            phone: document.getElementById('teacherPhone').value
+          });
+          localStorage.setItem('pendingTeachers', JSON.stringify(pendingTeachers));
+          document.getElementById('registerMsg').innerHTML = `<div class='success-msg'>Registration submitted! Please wait for admin approval.</div>`;
+          this.reset();
+          teacherFields.style.display = 'none';
+          parentFields.style.display = 'none';
+          studentFields.style.display = '';
+        } else if (role === 'parent') {
+          // Save as pending parent
+          let pendingParents = JSON.parse(localStorage.getItem('pendingParents') || '[]');
+          pendingParents.push({
+            name: document.getElementById('parentFullName').value,
+            location: document.getElementById('parentLocation').value,
+            child: document.getElementById('parentChild').value,
+            phone: document.getElementById('parentPhoneReg').value,
+            password: document.getElementById('parentPassword').value,
+            email: document.getElementById('parentEmailReg').value
+          });
+          localStorage.setItem('pendingParents', JSON.stringify(pendingParents));
+          document.getElementById('registerMsg').innerHTML = `<div class='success-msg'>Registration submitted! Please wait for admin approval.</div>`;
+          this.reset();
+          teacherFields.style.display = 'none';
+          parentFields.style.display = 'none';
+          studentFields.style.display = '';
+        } else {
+          // Save as student (demo only)
+          document.getElementById('registerMsg').innerHTML = `<div class='success-msg'>Student registration submitted! (Demo only)</div>`;
+          this.reset();
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

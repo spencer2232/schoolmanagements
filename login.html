@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - St Francis School</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #f4f6f8 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      max-width: 400px;
+      width: 100%;
+      background: rgba(255,255,255,0.98);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(79,140,255,0.13), 0 1.5px 8px rgba(79,140,255,0.07);
+      padding: 2.7rem 2.2rem 2.2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+      margin: 3.5rem auto 2rem auto;
+    }
+    .login-container:before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: linear-gradient(135deg, #4f8cff 0%, #90caf9 100%);
+      opacity: 0.13;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #174ea6;
+      margin-bottom: 1.5rem;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+    label {
+      font-weight: 600;
+      color: #4f8cff;
+      margin-bottom: 0.3rem;
+      font-size: 1.07rem;
+    }
+    input {
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      border: 1.5px solid #cfd8dc;
+      font-size: 1.09rem;
+      background: #f7faff;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+      box-shadow: 0 1px 4px rgba(79,140,255,0.06);
+    }
+    input:focus {
+      border: 1.5px solid #4f8cff;
+      box-shadow: 0 2px 8px rgba(79,140,255,0.13);
+    }
+    button {
+      background: linear-gradient(90deg, #4f8cff 0%, #1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      font-size: 1.13rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+      margin-top: 0.5rem;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #1976d2 0%, #4f8cff 100%);
+      box-shadow: 0 4px 24px rgba(79,140,255,0.18);
+    }
+    .register-link {
+      display: block;
+      text-align: center;
+      margin-top: 2.2rem;
+      color: #4f8cff;
+      text-decoration: underline;
+      font-weight: 600;
+      font-size: 1.08rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form id="loginForm">
+      <div>
+        <label for="role">Login As</label>
+        <select id="role" name="role" required style="width:100%;padding:0.7rem 1rem;border-radius:10px;border:1.5px solid #cfd8dc;font-size:1.08rem;margin-bottom:1.2rem;background:#f4f6f8;">
+          <option value="">Select Role</option>
+          <option value="parent">Parent</option>
+          <option value="teacher">Teacher</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div>
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div id="loginMessage" style="text-align:center;color:#e53935;font-weight:600;margin-top:1rem;"></div>
+    <a href="student-registration.html" class="register-link">User Registration</a>
+    <button id="resetDemoBtn" style="display:block;width:100%;margin-top:1.2rem;background:#e53935;color:#fff;border:none;border-radius:10px;padding:0.7rem 1.5rem;font-size:1.08rem;font-weight:600;box-shadow:0 2px 12px rgba(79,140,255,0.10);cursor:pointer;">Reset Demo Data</button>
+  </div>
+  <script>
+    // Reset Demo Data button
+    document.getElementById('resetDemoBtn').onclick = function() {
+      localStorage.clear();
+      localStorage.setItem('teachers', JSON.stringify([
+        { name: 'teacher', password: 'demo', subject: 'English' }
+      ]));
+      localStorage.setItem('parents', JSON.stringify([
+        { name: 'Parent User', email: 'parent', password: 'demo' }
+      ]));
+      document.getElementById('loginMessage').style.color = '#388e3c';
+      document.getElementById('loginMessage').textContent = 'Demo data reset! You can now log in as teacher or parent.';
+    };
+    // Set default teacher and parent credentials if not present
+    if (!localStorage.getItem('teachers')) {
+      localStorage.setItem('teachers', JSON.stringify([
+        { name: 'teacher', password: 'demo', subject: 'English' }
+      ]));
+    }
+    if (!localStorage.getItem('parents')) {
+      localStorage.setItem('parents', JSON.stringify([
+        { name: 'Parent User', email: 'parent', password: 'demo' }
+      ]));
+    }
+    function getParentFromStorage(username) {
+      const parents = JSON.parse(localStorage.getItem('parents')) || [];
+      return parents.find(p => p.email === username);
+    }
+    function getTeacherFromStorage(username) {
+      const teachers = JSON.parse(localStorage.getItem('teachers')) || [];
+      return teachers.find(t => t.name === username);
+    }
+    const validAdminUsers = ['admin', 'admin@school.com'];
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const role = document.getElementById('role').value;
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const msg = document.getElementById('loginMessage');
+      if (!role) {
+        msg.style.color = '#e53935';
+        msg.textContent = 'Please select a role.';
+        return;
+      }
+      if (role === 'admin') {
+        if (validAdminUsers.includes(username) && password === 'demo') {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Admin login successful! (Demo only)';
+          sessionStorage.setItem('role', 'admin');
+          setTimeout(() => {
+            window.location.href = 'admin-panel.html';
+          }, 1000);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid admin credentials. Try again (username: admin, password: demo).';
+        }
+      } else if (role === 'teacher') {
+        const teacher = getTeacherFromStorage(username);
+        if (teacher && teacher.password === password) {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Teacher login successful!';
+          sessionStorage.setItem('role', 'teacher');
+          setTimeout(() => {
+            window.location.href = 'teacher-dashboard.html';
+          }, 1000);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid teacher credentials. Username: teacher, Password: demo.';
+        }
+      } else if (role === 'parent') {
+        const parent = getParentFromStorage(username);
+        if (parent && parent.password === password) {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Parent login successful!';
+          sessionStorage.setItem('role', 'parent');
+          setTimeout(() => {
+            window.location.href = 'report-card.html';
+          }, 1000);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid parent credentials. Username: parent, Password: demo.';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

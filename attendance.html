@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Attendance - School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Attendance Records</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="attendance.html" aria-current="page">Attendance</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Mark Attendance</h2>
+      <form id="attendanceForm">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+        <label for="class">Class</label>
+        <input type="text" id="class" name="class" required>
+        <button type="submit">Load Students</button>
+      </form>
+      <form id="markAttendanceForm" style="display:none;">
+        <h3>Students</h3>
+        <div id="studentsList"></div>
+        <button type="submit">Save Attendance</button>
+      </form>
+    </section>
+    <section>
+      <h2>Attendance Records</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Class</th>
+            <th>Student</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="attendanceTable">
+          <!-- JavaScript will populate this -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="attendance.js"></script>
+</body>
+</html>

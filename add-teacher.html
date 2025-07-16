@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Teacher - School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Add Teacher</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="add-teacher.html" aria-current="page">Add Teacher</a>
+      <a href="teacher-list.html">Teacher List</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Add Teacher</h2>
+      <form id="teacherForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" required>
+        <button type="submit">Add Teacher</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="add-teacher.js"></script>
+</body>
+</html>

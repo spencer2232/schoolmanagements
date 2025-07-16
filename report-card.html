@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Report Card</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+      margin: 0;
+      min-height: 100vh;
+      color: #23293a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .report-card-glass {
+      max-width: 700px;
+      width: 96vw;
+      margin: 2.5rem auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(79,140,255,0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(79,140,255,0.13);
+      transition: background 0.3s, color 0.3s;
+    }
+    .report-card-glass h1 {
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 12px rgba(79,140,255,0.13);
+    }
+    .info {
+      margin-top: 10px;
+      font-size: 1.13rem;
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: rgba(255,255,255,0.98);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+    }
+    th, td {
+      border: 1px solid #cfd8dc;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.92);
+    }
+    th {
+      background: #e3f0ff;
+      color: #174ea6;
+      font-weight: 700;
+    }
+    .header-row td {
+      border: none;
+      font-weight: bold;
+    }
+    .comment-section {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .comment-label {
+      font-weight: 700;
+      color: #174ea6;
+      margin-bottom: 0.3rem;
+    }
+    .comment-box {
+      height: 60px;
+      border: 1.5px solid #cfd8dc;
+      background: #f4f6f8;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
+    .grading {
+      margin-top: 2.2rem;
+      font-size: 1.08rem;
+      color: #174ea6;
+      background: #e3f0ff;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+    }
+    .grade-scale {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 1.08rem;
+      margin-top: 5px;
+    }
+    @media (max-width: 700px) {
+      .report-card-glass {
+        padding: 1.2rem 0.5rem;
+      }
+      table th, table td {
+        font-size: 0.95rem;
+        padding: 6px 2px;
+      }
+      .grading {
+        padding: 0.7rem 0.5rem;
+        font-size: 0.98rem;
+      }
+    }
+  </style>
+</head>
+  <body>
+    <div style="display:flex;justify-content:flex-end;align-items:center;padding:1.2rem 2.2rem 0 0;">
+      <button id="logoutBtn" style="background:linear-gradient(90deg,#e53935 0%,#ffb300 100%);color:#fff;border:none;border-radius:10px;padding:0.5rem 1.3rem;font-size:1.05rem;font-weight:700;cursor:pointer;transition:background 0.2s;">Logout</button>
+    </div>
+  <div style="text-align:center;margin-bottom:1.2rem;">
+    <a href="report-cards-list.html" style="color:#1976d2;font-weight:700;text-decoration:underline;font-size:1.13rem;">View All Report Cards</a>
+    <br>
+    <button id="returnDashboardBtn" style="margin-top:1rem;background:linear-gradient(90deg,#1976d2 0%,#4f8cff 100%);color:#fff;border:none;border-radius:12px;padding:0.7rem 2rem;font-size:1.08rem;font-weight:700;box-shadow:0 2px 12px rgba(79,140,255,0.10);cursor:pointer;transition:background 0.2s;">Return to Dashboard</button>
+  </div>
+  <div class="report-card-glass">
+    <h1>Student Report Card</h1>
+    <form id="reportForm">
+      <div class="info">
+        <label><strong>Class:</strong>
+          <select id="classSelect" name="className" style="width:120px;max-width:40vw;">
+            <option value="">Select class</option>
+          </select>
+        </label>
+        <br>
+        <label><strong>Name:</strong>
+          <select id="studentSelect" name="studentName" style="width:160px;max-width:50vw;" disabled>
+            <option value="">Select student</option>
+          </select>
+          <input type="text" id="studentNameInput" name="studentNameInput" placeholder="Type name..." style="width:120px;max-width:40vw;display:none;margin-top:0.5rem;">
+        </label>
+        <br>
+        <label><strong>Grade:</strong> <input type="text" name="grade" style="width:50px;" required></label>&nbsp;&nbsp;
+        <label><strong>Term:</strong> <input type="text" name="term" style="width:50px;" required></label>&nbsp;&nbsp;
+        <label><strong>Year:</strong> <input type="number" name="year" min="2000" max="2100" style="width:60px;" required></label>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Mid-Term Test</th>
+            <th>Mock Exam</th>
+            <th>Grade</th>
+            <th>Rank</th>
+          </tr>
+        </thead>
+        <tbody id="subjectsTableBody">
+          <!-- Subjects will be loaded here -->
+        </tbody>
+      </table>
+      <div class="info">
+        <label><strong>SCH CERT/G.C.E:</strong> <input type="text" name="gce_points" style="width:120px;"> points in best 6 subjects <em>(including English)</em>. Position in class <input type="text" name="class_pos" style="width:60px;"> out of <input type="text" name="class_total" style="width:60px;"></label>
+        <br>
+        <label><strong>Attendance:</strong> <input type="text" name="attendance_actual" style="width:60px;"> (actual) out of <input type="text" name="attendance_possible" style="width:60px;"> (possible). Next term begins on <input type="text" name="next_term" style="width:110px;"> / <input type="text" name="next_term2" style="width:110px;"> / <input type="number" name="next_term_year" min="2000" max="2100" style="width:70px;"></label>
+      </div>
+      <div class="comment-section">
+        <div>
+          <div class="comment-label">Grade Teacher's Comment:</div>
+          <textarea class="comment-box" name="teacher_comment" style="width:100%;resize:vertical;"></textarea>
+        </div>
+        <div>
+          <div class="comment-label">Head Teacher's Comment:</div>
+          <textarea class="comment-box" name="head_comment" style="width:100%;resize:vertical;"></textarea>
+        </div>
+      </div>
+      <div class="grading">
+        <strong>SENIOR GRADING OF RESULTS:</strong>
+        <div class="grade-scale">
+          <div>Grade 1: 100–75</div>
+          <div>Grade 2: 74–70</div>
+          <div>Grade 3: 69–65</div>
+          <div>Grade 4: 64–60</div>
+          <div>Grade 5: 59–55</div>
+          <div>Grade 6: 54–50</div>
+          <div>Grade 7: 49–45</div>
+          <div>Grade 8: 44–40</div>
+          <div>Grade 9: 39–0</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button type="submit" style="background:linear-gradient(90deg,#4f8cff 0%,#1976d2 100%);color:#fff;border:none;border-radius:12px;padding:0.9rem 2.5rem;font-size:1.15rem;font-weight:700;box-shadow:0 2px 12px rgba(79,140,255,0.10);cursor:pointer;transition:background 0.2s;">Print Report Card</button>
+        <button type="button" id="sendEmailBtn" style="background:linear-gradient(90deg,#1976d2 0%,#4f8cff 100%);color:#fff;border:none;border-radius:12px;padding:0.9rem 2.5rem;font-size:1.15rem;font-weight:700;box-shadow:0 2px 12px rgba(79,140,255,0.10);cursor:pointer;transition:background 0.2s;margin-left:1rem;display:none;">Send to Parent Email</button>
+      </div>
+    </form>
+    <div class="grading">
+      <strong>SENIOR GRADING OF RESULTS:</strong>
+      <div class="grade-scale">
+        <div>Grade 1: 100–75</div>
+        <div>Grade 2: 74–70</div>
+        <div>Grade 3: 69–65</div>
+        <div>Grade 4: 64–60</div>
+        <div>Grade 5: 59–55</div>
+        <div>Grade 6: 54–50</div>
+        <div>Grade 7: 49–45</div>
+        <div>Grade 8: 44–40</div>
+        <div>Grade 9: 39–0</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Logout button logic
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+      });
+    }
+    // Utility: get role from sessionStorage (set after login)
+    function getUserRole() {
+      return sessionStorage.getItem('role') || 'parent';
+    }
+    document.getElementById('returnDashboardBtn').addEventListener('click', function() {
+      const role = getUserRole();
+      if (role === 'admin') {
+        window.location.href = 'admin-panel.html';
+      } else if (role === 'teacher') {
+        window.location.href = 'teacher-dashboard.html';
+      } else {
+        window.location.href = 'index.html'; // or a parent dashboard if available
+      }
+    });
+    // Mock data for classes, students, subjects, and parent emails
+    const classData = {
+      'Grade 8A': [
+        { name: 'John Banda', email: 'parent.john@example.com', subjects: ['English', 'Mathematics', 'Biology', 'C.R.E', 'Physics'] },
+        { name: 'Mary Zulu', email: 'parent.mary@example.com', subjects: ['English', 'Mathematics', 'Biology', 'Chemistry', 'Geography'] }
+      ],
+      'Grade 8B': [
+        { name: 'Peter Mwale', email: 'parent.peter@example.com', subjects: ['English', 'Mathematics', 'Civic Education', 'History', 'Music'] },
+        { name: 'Grace Phiri', email: 'parent.grace@example.com', subjects: ['English', 'Mathematics', 'Commerce', 'F/N', 'Accounts'] }
+      ],
+      'Grade 9A': [
+        { name: 'James Mulenga', email: 'parent.james@example.com', subjects: ['English', 'Mathematics', 'Icibemba', 'DT', 'Computer'] },
+        { name: 'Agnes Tembo', email: 'parent.agnes@example.com', subjects: ['English', 'Mathematics', 'Biology', 'Chemistry', 'Geography'] }
+      ],
+      'Grade 9B': [
+        { name: 'Chanda Chileshe', email: 'parent.chanda@example.com', subjects: ['English', 'Mathematics', 'History', 'Music', 'C.R.E'] },
+        { name: 'Loveness Mumba', email: 'parent.loveness@example.com', subjects: ['English', 'Mathematics', 'Commerce', 'F/N', 'Accounts'] }
+      ]
+    };
+
+    // Populate class dropdown
+    const classSelect = document.getElementById('classSelect');
+    Object.keys(classData).forEach(cls => {
+      const opt = document.createElement('option');
+      opt.value = cls;
+      opt.textContent = cls;
+      classSelect.appendChild(opt);
+    });
+
+    const studentSelect = document.getElementById('studentSelect');
+    const studentNameInput = document.getElementById('studentNameInput');
+    const subjectsTableBody = document.getElementById('subjectsTableBody');
+    const sendEmailBtn = document.getElementById('sendEmailBtn');
+    let selectedParentEmail = '';
+    let selectedSubjects = [];
+
+    classSelect.addEventListener('change', function() {
+      studentSelect.innerHTML = '<option value="">Select student</option>';
+      studentSelect.disabled = !this.value;
+      subjectsTableBody.innerHTML = '';
+      sendEmailBtn.style.display = 'none';
+      if (this.value && classData[this.value]) {
+        classData[this.value].forEach(stu => {
+          const opt = document.createElement('option');
+          opt.value = stu.name;
+          opt.textContent = stu.name;
+          studentSelect.appendChild(opt);
+        });
+      }
+    });
+
+    studentSelect.addEventListener('change', function() {
+      studentNameInput.style.display = 'none';
+      studentNameInput.value = this.value;
+      sendEmailBtn.style.display = 'none';
+      subjectsTableBody.innerHTML = '';
+      selectedParentEmail = '';
+      selectedSubjects = [];
+      if (classSelect.value && classData[classSelect.value]) {
+        const stu = classData[classSelect.value].find(s => s.name === this.value);
+        if (stu) {
+          selectedParentEmail = stu.email;
+          selectedSubjects = stu.subjects;
+          // Load subjects for this student
+          selectedSubjects.forEach(subj => {
+            const subjKey = subj.toLowerCase().replace(/\s/g,'_');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${subj}</td>
+              <td><input type="number" name="${subjKey}_mid" min="0" max="100" style="width:60px;" class="score-input"></td>
+              <td><input type="number" name="${subjKey}_mock" min="0" max="100" style="width:60px;" class="score-input"></td>
+              <td><input type="text" name="${subjKey}_grade" style="width:50px;" readonly></td>
+              <td><input type="text" name="${subjKey}_rank" style="width:50px;"></td>`;
+            subjectsTableBody.appendChild(tr);
+          });
+          sendEmailBtn.style.display = 'inline-block';
+          setTimeout(attachScoreListeners, 100); // Attach listeners after DOM update
+        }
+      }
+    });
+
+    // Grade calculation logic
+    function calculateGrade(score) {
+      if (score >= 75) return 1;
+      if (score >= 70) return 2;
+      if (score >= 65) return 3;
+      if (score >= 60) return 4;
+      if (score >= 55) return 5;
+      if (score >= 50) return 6;
+      if (score >= 45) return 7;
+      if (score >= 40) return 8;
+      return 9;
+    }
+
+    function attachScoreListeners() {
+      const rows = subjectsTableBody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('.score-input');
+        const gradeInput = row.querySelector('input[name$="_grade"]');
+        function updateGrade() {
+          const mid = parseFloat(inputs[0].value) || 0;
+          const mock = parseFloat(inputs[1].value) || 0;
+          const avg = (mid + mock) / 2;
+          if (inputs[0].value === '' && inputs[1].value === '') {
+            gradeInput.value = '';
+          } else {
+            gradeInput.value = calculateGrade(avg);
+          }
+          updateBestSix();
+        }
+        inputs[0].addEventListener('input', updateGrade);
+        inputs[1].addEventListener('input', updateGrade);
+      });
+    }
+
+    function updateBestSix() {
+      // Find all grade inputs and their averages
+      const rows = subjectsTableBody.querySelectorAll('tr');
+      let subjectScores = [];
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('.score-input');
+        const mid = parseFloat(inputs[0].value) || 0;
+        const mock = parseFloat(inputs[1].value) || 0;
+        const avg = (mid + mock) / 2;
+        subjectScores.push(avg);
+      });
+      // Sort descending, pick best 6
+      subjectScores.sort((a, b) => b - a);
+      const bestSix = subjectScores.slice(0, 6);
+      // Calculate total points (sum of grades for best 6)
+      let totalPoints = 0;
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('.score-input');
+        const mid = parseFloat(inputs[0].value) || 0;
+        const mock = parseFloat(inputs[1].value) || 0;
+        const avg = (mid + mock) / 2;
+        if (bestSix.includes(avg)) {
+          const gradeInput = row.querySelector('input[name$="_grade"]');
+          if (gradeInput.value) {
+            totalPoints += parseInt(gradeInput.value, 10);
+            // Remove this avg from bestSix to avoid duplicate counting
+            bestSix[bestSix.indexOf(avg)] = null;
+          }
+        }
+      });
+      // Set the best six field
+      const gcePointsInput = document.querySelector('input[name="gce_points"]');
+      if (gcePointsInput) {
+        gcePointsInput.value = totalPoints > 0 ? totalPoints + '' : '';
+      }
+    }
+
+    // Show input if 'Other' is selected (if you want to keep this feature)
+    // studentSelect.addEventListener('change', function() {
+    //   if (this.value === 'Other') {
+    //     studentNameInput.style.display = 'inline-block';
+    //     studentNameInput.value = '';
+    //     studentNameInput.required = true;
+    //   } else {
+    //     studentNameInput.style.display = 'none';
+    //     studentNameInput.value = this.value;
+    //     studentNameInput.required = false;
+    //   }
+    // });
+
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      window.print();
+    });
+
+    sendEmailBtn.addEventListener('click', function() {
+      if (!selectedParentEmail) {
+        alert('No parent email found for this student.');
+        return;
+      }
+      // Simulate sending email
+      alert('Report card sent to parent email: ' + selectedParentEmail + '\n(This is a demo. Actual email sending requires backend integration.)');
+    });
+  </script>
+</body>
+</html>

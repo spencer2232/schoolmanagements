@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Dashboard - Record Test Scores</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+      margin: 0;
+      min-height: 100vh;
+      color: #23293a;
+    }
+    .teacher-panel-glass {
+      max-width: 900px;
+      width: 98vw;
+      margin: 2.5rem auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(79,140,255,0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(79,140,255,0.13);
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 {
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2.1rem;
+      font-weight: 800;
+    }
+    .teacher-nav {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 2.2rem;
+    }
+    .teacher-nav a {
+      color: #1976d2;
+      font-weight: 700;
+      text-decoration: underline;
+      font-size: 1.13rem;
+      border-radius: 8px;
+      padding: 0.5rem 1.2rem;
+      background: #f4f6f8;
+      transition: background 0.2s, color 0.2s;
+    }
+    .teacher-nav a:hover {
+      background: #4f8cff;
+      color: #fff;
+    }
+    .teacher-section {
+      margin-bottom: 2.5rem;
+      background: #f8fbff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+      padding: 1.5rem 1rem;
+    }
+    .teacher-section h2 {
+      color: #174ea6;
+      margin-bottom: 1.2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    select, input[type="number"] {
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
+      border: 1.5px solid #cfd8dc;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      background: #f4f6f8;
+      box-sizing: border-box;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.98);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+    }
+    th, td {
+      border: 1px solid #cfd8dc;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 1.05rem;
+      background: rgba(255,255,255,0.92);
+    }
+    th {
+      background: #e3f0ff;
+      color: #174ea6;
+      font-weight: 700;
+    }
+    .save-btn {
+      background: linear-gradient(90deg,#4f8cff 0%,#1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.5rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .save-btn:hover {
+      background: #1976d2;
+    }
+    .success-msg {
+      color: #388e3c;
+      font-weight: 700;
+      margin-top: 1rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;">
+    <button id="returnDashboardBtn" style="background:linear-gradient(90deg,#1976d2 0%,#4f8cff 100%);color:#fff;border:none;border-radius:12px;padding:0.7rem 2rem;font-size:1.08rem;font-weight:700;box-shadow:0 2px 12px rgba(79,140,255,0.10);cursor:pointer;transition:background 0.2s;display:none;">Return to Admin Panel</button>
+    <button id="logoutBtn" style="background:linear-gradient(90deg,#e53935 0%,#ffb300 100%);color:#fff;border:none;border-radius:10px;padding:0.5rem 1.3rem;font-size:1.05rem;font-weight:700;cursor:pointer;transition:background 0.2s;">Logout</button>
+  </div>
+  <div class="teacher-panel-glass">
+    <h1>Teacher Dashboard</h1>
+    <div class="teacher-nav">
+      <a href="#record">Record Test Scores</a>
+      <a href="#attendance">Take Attendance</a>
+      <a href="#register">Register Student</a>
+      <a href="#classlist">Class List</a>
+      <a href="#reportcard">Generate Report Card</a>
+    </div>
+    <!-- Record Test Scores -->
+    <div class="teacher-section" id="record">
+      <h2>Record Test Scores</h2>
+      <label for="classSelect">Select Class:</label>
+      <select id="classSelect"></select>
+      <label for="subjectSelect" style="margin-left:1.5rem;">Select Subject:</label>
+      <select id="subjectSelect"></select>
+      <div id="scoresSection" style="margin-top:1.5rem;"></div>
+    </div>
+    <!-- Take Attendance -->
+    <div class="teacher-section" id="attendance">
+      <h2>Take Attendance</h2>
+      <label for="attendanceClassSelect">Select Class:</label>
+      <select id="attendanceClassSelect"></select>
+      <div id="attendanceSection" style="margin-top:1.5rem;"></div>
+    </div>
+    <!-- User Registration -->
+    <div class="teacher-section" id="register">
+      <h2>User Registration</h2>
+      <form id="teacherRegisterForm">
+        <input type="text" id="regName" placeholder="Full Name" required style="margin-right:1rem;">
+        <select id="regClass" required style="margin-right:1rem;">
+          <option value="">Select Class (if student)</option>
+        </select>
+        <input type="email" id="regEmail" placeholder="Email" required style="margin-right:1rem;">
+        <button type="submit" class="save-btn">Register User</button>
+      </form>
+      <div id="registerMsg"></div>
+    </div>
+    <!-- Class List -->
+    <div class="teacher-section" id="classlist">
+      <h2>Class List</h2>
+      <label for="classListSelect">Select Class:</label>
+      <select id="classListSelect"></select>
+      <div id="classListSection" style="margin-top:1.5rem;"></div>
+    </div>
+    <!-- Generate Report Card -->
+    <div class="teacher-section" id="reportcard">
+      <h2>Generate Report Card</h2>
+      <label for="reportClassSelect">Select Class:</label>
+      <select id="reportClassSelect"></select>
+      <label for="reportStudentSelect" style="margin-left:1.5rem;">Select Student:</label>
+      <select id="reportStudentSelect"></select>
+      <button class="save-btn" onclick="generateReportCard()" style="margin-left:1.5rem;">Generate</button>
+      <div id="reportCardSection" style="margin-top:1.5rem;"></div>
+    </div>
+  </div>
+  <script>
+    // Show Return to Admin Panel button only for admin
+    if (sessionStorage.getItem('role') === 'admin') {
+      document.getElementById('returnDashboardBtn').style.display = 'inline-block';
+    }
+    document.getElementById('returnDashboardBtn').onclick = function() {
+      window.location.href = 'admin-panel.html';
+    };
+    // Demo data (should be replaced with real data integration)
+    let students = [
+      { name: 'John Banda', class: 'Grade 8A', email: 'parent.john@example.com' },
+      { name: 'Mary Zulu', class: 'Grade 8A', email: 'parent.mary@example.com' },
+      { name: 'Peter Mwale', class: 'Grade 8B', email: 'parent.peter@example.com' }
+    ];
+    let classes = ['Grade 8A', 'Grade 8B', 'Grade 9A', 'Grade 9B'];
+    let subjects = ['English', 'Mathematics', 'Science'];
+
+    // Populate dropdowns for all features
+    function populateDropdown(selectId, arr) {
+      const sel = document.getElementById(selectId);
+      sel.innerHTML = '';
+      arr.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+    populateDropdown('classSelect', classes);
+    populateDropdown('attendanceClassSelect', classes);
+    populateDropdown('regClass', classes);
+    populateDropdown('classListSelect', classes);
+    populateDropdown('reportClassSelect', classes);
+    const subjectSelect = document.getElementById('subjectSelect');
+    subjectSelect.innerHTML = '';
+    subjects.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      subjectSelect.appendChild(opt);
+    });
+
+    // Record Test Scores
+    function renderScoresTable() {
+      const selectedClass = document.getElementById('classSelect').value;
+      const selectedSubject = document.getElementById('subjectSelect').value;
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      let html = '';
+      if (filteredStudents.length === 0) {
+        html = '<div style="color:#888;">No students found for this class.</div>';
+      } else {
+        html = `<table><thead><tr><th>Student Name</th><th>${selectedSubject} Score</th></tr></thead><tbody>`;
+        filteredStudents.forEach((stu, idx) => {
+          html += `<tr><td>${stu.name}</td><td><input type='number' min='0' max='100' id='score_${idx}' style='width:80px;'></td></tr>`;
+        });
+        html += '</tbody></table>';
+        html += `<button class='save-btn' onclick='saveScores()'>Save Scores</button>`;
+        html += `<div id='saveMsg'></div>`;
+      }
+      document.getElementById('scoresSection').innerHTML = html;
+    }
+    document.getElementById('classSelect').addEventListener('change', renderScoresTable);
+    document.getElementById('subjectSelect').addEventListener('change', renderScoresTable);
+    function saveScores() {
+      const selectedClass = document.getElementById('classSelect').value;
+      const selectedSubject = document.getElementById('subjectSelect').value;
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      let scores = [];
+      filteredStudents.forEach((stu, idx) => {
+        const score = document.getElementById('score_' + idx).value;
+        scores.push({ name: stu.name, class: stu.class, subject: selectedSubject, score });
+      });
+      document.getElementById('saveMsg').innerHTML = `<div class='success-msg'>Scores saved successfully! (Demo only)</div>`;
+    }
+    document.getElementById('classSelect').value = classes[0];
+    document.getElementById('subjectSelect').value = subjects[0];
+    renderScoresTable();
+
+    // Take Attendance
+    function renderAttendanceTable() {
+      const selectedClass = document.getElementById('attendanceClassSelect').value;
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      let html = '';
+      if (filteredStudents.length === 0) {
+        html = '<div style="color:#888;">No students found for this class.</div>';
+      } else {
+        html = `<table><thead><tr><th>Student Name</th><th>Present</th></tr></thead><tbody>`;
+        filteredStudents.forEach((stu, idx) => {
+          html += `<tr><td>${stu.name}</td><td><input type='checkbox' id='attend_${idx}'></td></tr>`;
+        });
+        html += '</tbody></table>';
+        html += `<button class='save-btn' onclick='saveAttendance()'>Save Attendance</button>`;
+        html += `<div id='attendanceMsg'></div>`;
+      }
+      document.getElementById('attendanceSection').innerHTML = html;
+    }
+    document.getElementById('attendanceClassSelect').addEventListener('change', renderAttendanceTable);
+    function saveAttendance() {
+      const selectedClass = document.getElementById('attendanceClassSelect').value;
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      let attendance = [];
+      filteredStudents.forEach((stu, idx) => {
+        const present = document.getElementById('attend_' + idx).checked;
+        attendance.push({ name: stu.name, class: stu.class, present });
+      });
+      document.getElementById('attendanceMsg').innerHTML = `<div class='success-msg'>Attendance saved! (Demo only)</div>`;
+    }
+    document.getElementById('attendanceClassSelect').value = classes[0];
+    renderAttendanceTable();
+
+    // Register Student
+    const regForm = document.getElementById('teacherRegisterForm');
+    regForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value;
+      const regClass = document.getElementById('regClass').value;
+      const email = document.getElementById('regEmail').value;
+      // Save as pending teacher registration
+      let pendingTeachers = JSON.parse(localStorage.getItem('pendingTeachers') || '[]');
+      pendingTeachers.push({ name, class: regClass, email });
+      localStorage.setItem('pendingTeachers', JSON.stringify(pendingTeachers));
+      document.getElementById('registerMsg').innerHTML = `<div class='success-msg'>Registration submitted! Please wait for admin approval.</div>`;
+      regForm.reset();
+    });
+
+    // Class List
+    function renderClassList() {
+      const selectedClass = document.getElementById('classListSelect').value;
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      let html = '';
+      if (filteredStudents.length === 0) {
+        html = '<div style="color:#888;">No students found for this class.</div>';
+      } else {
+        html = `<table><thead><tr><th>Student Name</th><th>Parent Email</th></tr></thead><tbody>`;
+        filteredStudents.forEach(stu => {
+          html += `<tr><td>${stu.name}</td><td>${stu.email}</td></tr>`;
+        });
+        html += '</tbody></table>';
+      }
+      document.getElementById('classListSection').innerHTML = html;
+    }
+    document.getElementById('classListSelect').addEventListener('change', renderClassList);
+    document.getElementById('classListSelect').value = classes[0];
+    renderClassList();
+
+    // Generate Report Card
+    function renderReportStudentDropdown() {
+      const selectedClass = document.getElementById('reportClassSelect').value;
+      const reportStudentSelect = document.getElementById('reportStudentSelect');
+      reportStudentSelect.innerHTML = '';
+      const filteredStudents = students.filter(stu => stu.class === selectedClass);
+      filteredStudents.forEach(stu => {
+        const opt = document.createElement('option');
+        opt.value = stu.name;
+        opt.textContent = stu.name;
+        reportStudentSelect.appendChild(opt);
+      });
+    }
+    document.getElementById('reportClassSelect').addEventListener('change', renderReportStudentDropdown);
+    document.getElementById('reportClassSelect').value = classes[0];
+    renderReportStudentDropdown();
+    function generateReportCard() {
+      const selectedClass = document.getElementById('reportClassSelect').value;
+      const selectedStudent = document.getElementById('reportStudentSelect').value;
+      // Demo: show a simple report card
+      let html = `<div style='background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(79,140,255,0.07);padding:1.5rem 1rem;'>`;
+      html += `<h3 style='color:#174ea6;'>Report Card for ${selectedStudent} (${selectedClass})</h3>`;
+      html += `<table style='margin:1rem 0;width:100%;'><thead><tr><th>Subject</th><th>Score</th></tr></thead><tbody>`;
+      subjects.forEach(sub => {
+        html += `<tr><td>${sub}</td><td>--</td></tr>`;
+      });
+      html += `</tbody></table>`;
+      html += `<div style='color:#888;font-size:1.02rem;'>Scores will appear here after entry.</div>`;
+      html += `</div>`;
+      document.getElementById('reportCardSection').innerHTML = html;
+    }
+    // Return to Admin Panel button
+    // (Return to Admin Panel button is commented out or not present)
+    // Logout button logic
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.onclick = function() {
+        const userRole = sessionStorage.getItem('role');
+        sessionStorage.clear();
+        if (userRole && userRole.toLowerCase() === 'parent') {
+          window.location.href = 'login.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      };
+    }
+  </script>
+</body>
+</html>

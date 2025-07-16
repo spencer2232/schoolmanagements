@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parent/Student Portal Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e3f0ff 0%, #f8fbff 100%);
+      margin: 0;
+      min-height: 100vh;
+      color: #23293a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .portal-login-glass {
+      max-width: 400px;
+      width: 96vw;
+      margin: 2.5rem auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(79,140,255,0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(79,140,255,0.13);
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 {
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 12px rgba(79,140,255,0.13);
+    }
+    label {
+      display: block;
+      margin-bottom: 1.2rem;
+      font-size: 1.08rem;
+      color: #174ea6;
+      font-weight: 600;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      border: 1.5px solid #cfd8dc;
+      font-size: 1.08rem;
+      margin-top: 0.3rem;
+      margin-bottom: 1.2rem;
+      background: #f4f6f8;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      background: linear-gradient(90deg,#4f8cff 0%,#1976d2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.9rem 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 1.2rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      color: #1976d2;
+      font-weight: 700;
+      text-decoration: underline;
+      font-size: 1.13rem;
+    }
+    .login-info {
+      text-align: center;
+      color: #1976d2;
+      font-size: 1.02rem;
+      margin-bottom: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="portal-login-glass">
+    <a href="report-cards-list.html" class="back-link">&larr; Back to Report Cards</a>
+    <h1>Parent/Student Portal Login</h1>
+    <div class="login-info">Login to view your report card securely.</div>
+    <form id="portalLoginForm">
+      <label for="role">Login As</label>
+      <select id="role" name="role" style="width:100%;padding:0.7rem 1rem;border-radius:10px;border:1.5px solid #cfd8dc;font-size:1.08rem;margin-bottom:1.2rem;background:#f4f6f8;">
+        <option value="parent">Parent</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label for="email">Parent Email, Teacher Username, or Admin Username</label>
+      <input type="text" id="email" name="email" placeholder="Enter parent email, teacher username, or admin username" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div id="loginMessage" style="text-align:center;color:#e53935;font-weight:600;"></div>
+  </div>
+  <script>
+    // Demo login: role-based
+    const validParentUsers = [
+      'parent.john@example.com', 'parent.mary@example.com', 'parent.peter@example.com', 'parent.grace@example.com',
+      'parent.james@example.com', 'parent.agnes@example.com', 'parent.chanda@example.com', 'parent.loveness@example.com'
+    ];
+    const validTeacherUsers = [
+      'Mr. Phiri', 'Ms. Banda', 'Mrs. Zulu', 'Mr. Tembo', 'Mr. Mwale', 'Ms. Lungu', 'Mr. Chileshe', 'Ms. Mumba',
+      'Mr. Mulenga', 'Ms. Grace', 'Mr. Peter', 'Ms. Agnes', 'Mr. James', 'Mr. Chanda', 'Ms. Loveness', 'Mr. Banda'
+    ];
+    const validAdminUsers = ['admin', 'admin@school.com'];
+    document.getElementById('portalLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const role = document.getElementById('role').value;
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const msg = document.getElementById('loginMessage');
+      if (role === 'admin') {
+        if (validAdminUsers.includes(email) && password === 'demo') {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Admin login successful! (Demo only)';
+          sessionStorage.setItem('role', 'admin');
+          setTimeout(() => {
+            window.location.href = 'admin-panel.html';
+          }, 1200);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid admin credentials. Try again (username: admin, password: demo).';
+        }
+      } else if (role === 'teacher') {
+        if (validTeacherUsers.includes(email) && password === 'demo') {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Teacher login successful! (Demo only)';
+          sessionStorage.setItem('role', 'teacher');
+          setTimeout(() => {
+            window.location.href = 'teacher-dashboard.html';
+          }, 1200);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid teacher credentials. Try again (e.g. Mr. Phiri, password: demo).';
+        }
+      } else {
+        if (validParentUsers.includes(email) && password === 'demo') {
+          msg.style.color = '#388e3c';
+          msg.textContent = 'Parent login successful! (Demo only)';
+          sessionStorage.setItem('role', 'parent');
+          setTimeout(() => {
+            window.location.href = 'report-card.html';
+          }, 1200);
+        } else {
+          msg.style.color = '#e53935';
+          msg.textContent = 'Invalid parent credentials. Try again (password: demo).';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

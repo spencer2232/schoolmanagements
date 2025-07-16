@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Class List - School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Class List</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="add-class.html">Add Class</a>
+      <a href="class-list.html" aria-current="page">Class List</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>All Classes</h2>
+      <input type="search" id="searchInput" placeholder="Search by class name or teacher">
+      <table>
+        <thead>
+          <tr>
+            <th>Class Name</th>
+            <th>Teacher</th>
+            <th>Number of Students</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="classTable">
+          <!-- JavaScript will populate this -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="class-list.js"></script>
+</body>
+</html>

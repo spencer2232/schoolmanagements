@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student List - School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Student List</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="add-student.html">Add Student</a>
+      <a href="student-list.html" aria-current="page">Student List</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>All Students</h2>
+      <input type="search" id="searchInput" placeholder="Search by name or class">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Math</th>
+            <th>Science</th>
+            <th>English</th>
+            <th>Attendance (%)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable">
+          <!-- JavaScript will populate this -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="student-list.js"></script>
+</body>
+</html>

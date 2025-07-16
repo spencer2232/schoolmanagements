@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> St Francis School Management Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      background-image: url('https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      height: 56vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 32px 20px 20px 20px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      box-shadow: 0 8px 32px rgba(79,140,255,0.13);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(120deg, rgba(33, 150, 243, 0.45) 0%, rgba(0,0,0,0.25) 100%);
+      z-index: 0;
+      pointer-events: none;
+      animation: headerFadeIn 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes headerFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    header:after {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 180px; height: 180px;
+      background: linear-gradient(135deg, #4f8cff 0%, #90caf9 100%);
+      opacity: 0.13;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    header h1 {
+      font-size: 2.9rem;
+      text-shadow: 0 6px 32px rgba(33,150,243,0.25), 0 2px 8px rgba(0,0,0,0.18);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.7rem;
+      position: relative;
+      z-index: 2;
+      animation: headerTextPop 1.1s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes headerTextPop {
+      0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    header p, header div {
+      font-size: 1.22rem;
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 12px rgba(33,150,243,0.13);
+      animation: headerTextPop 1.3s cubic-bezier(.4,0,.2,1);
+      background: rgba(255,255,255,0.18);
+      border-radius: 16px;
+      padding: 0.7rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+      backdrop-filter: blur(6px);
+      border: 1.5px solid rgba(79,140,255,0.13);
+      display: inline-block;
+      max-width: 90vw;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 220px;
+      background: rgba(255,255,255,0.98);
+      box-shadow: 2px 0 16px rgba(79,140,255,0.10);
+      border-top-right-radius: 18px;
+      border-bottom-right-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2.5rem 1rem 1rem 1rem;
+      gap: 0.5rem;
+      z-index: 10;
+      overflow-y: auto;
+      backdrop-filter: blur(2px);
+      transition: left 0.3s, width 0.3s;
+    }
+    .nav-toggle {
+      display: none;
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 30;
+      background: #4f8cff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.1rem;
+      font-size: 1.3rem;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.13);
+      cursor: pointer;
+    }
+    nav a {
+      color: #222;
+      background: #f4f6f8;
+      padding: 0.7rem 1.2rem;
+      border-radius: 22px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      margin-bottom: 0.3rem;
+      width: 100%;
+      box-sizing: border-box;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 6px rgba(79,140,255,0.09);
+      display: block;
+      text-align: left;
+    }
+    nav a:hover, nav a:focus {
+      background: #4f8cff;
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.18);
+    }
+    nav div {
+      z-index: 1;
+    }
+    .dark-toggle-btn {
+      position:fixed;top:18px;right:28px;z-index:20;background:#fff;border:none;border-radius:22px;padding:0.5rem 1.2rem;font-size:1.08rem;font-weight:600;box-shadow:0 2px 12px rgba(79,140,255,0.13);color:#174ea6;cursor:pointer;transition:background 0.3s,color 0.3s;
+    }
+    body.dark-mode .dark-toggle-btn { background:#23293a;color:#90caf9; }
+    main {
+      margin-left: 240px;
+      padding: 2.5rem 2rem 2rem 2rem;
+      min-height: 60vh;
+      background: transparent;
+      transition: background 0.3s, color 0.3s;
+    }
+    section, .container {
+      background: rgba(255,255,255,0.98);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.07);
+      padding: 2.2rem 1.5rem;
+      margin-bottom: 2.2rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    h2 {
+      color: #174ea6;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .gallery-home-img {
+      flex: 0 0 320px;
+      width: 320px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(79,140,255,0.10);
+      background: #eaf3ff;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .gallery-home-img:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 24px rgba(79,140,255,0.18);
+    }
+    #homeGalleryGrid {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 1.5rem;
+      margin: 2rem 0;
+      padding-bottom: 1rem;
+      padding-left: 5vw;
+    }
+    @media (max-width: 1100px) {
+      main {
+        margin-left: 0;
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+      }
+      nav {
+        position: fixed;
+        left: -100vw;
+        top: 0;
+        width: 80vw;
+        max-width: 340px;
+        height: 100vh;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        border-radius: 0 18px 18px 0;
+        box-shadow: 2px 0 16px rgba(79,140,255,0.10);
+        padding: 2.5rem 1rem 1rem 1rem;
+        gap: 0.5rem;
+        backdrop-filter: blur(2px);
+        transition: left 0.3s, width 0.3s;
+      }
+      nav.open {
+        left: 0;
+      }
+      .nav-toggle {
+        display: block;
+      }
+      nav a {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 0.3rem;
+      }
+    }
+    @media (max-width: 700px) {
+      header h1 {
+        font-size: 1.1rem;
+      }
+      header img {
+        height: 36px;
+        width: 36px;
+      }
+      main {
+        padding: 0.2rem;
+      }
+      section, .container {
+        padding: 0.7rem 0.2rem;
+      }
+      .gallery-home-img {
+        width: 90vw;
+        max-width: 320px;
+        height: 120px;
+      }
+      #homeGalleryGrid {
+        gap: 0.7rem;
+        padding-left: 2vw;
+      }
+    }
+    body.dark-mode { background: #181c24; color: #eaf3ff; }
+    body.dark-mode main, body.dark-mode section, body.dark-mode .container { background: #23293a !important; color: #eaf3ff !important; }
+    body.dark-mode h1, body.dark-mode h2 { color: #4f8cff !important; }
+    body.dark-mode p, body.dark-mode a, body.dark-mode span { color: #90caf9 !important; }
+  </style>
+</head>
+<body>
+  <button class="nav-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+  <button class="dark-toggle-btn" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  <nav>
+    <div style="width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;margin:4.5rem 0 2.5rem 0;min-height:120px;">
+      <img src="image/logo.jpg" alt="School Logo" style="height:64px;width:64px;display:block;margin:5.5rem 0 0.5rem 0;border-radius:50%;box-shadow:0 2px 12px rgba(79,140,255,0.13);background:#fff;padding:0.3rem;">
+      <div style="text-align:center;font-size:1.08rem;color:#4f8cff;font-weight:600;">that I may see</div>
+    </div>
+    <a href="login.html">Login</a>
+    <a href="#">Home</a>
+    <a href="student-performance.html" style="pointer-events:none;" tabindex="-1">Student Performance</a>
+    <a href="add-student.html" style="pointer-events:none;" tabindex="-1">Add Student</a>
+    
+    <a href="student-registration.html" style="pointer-events:none;" tabindex="-1">Student Registration</a>
+    <a href="add-teacher.html" style="pointer-events:none;" tabindex="-1">Add Teacher</a>
+    
+    <a href="add-class.html" style="pointer-events:none;" tabindex="-1">Add Class</a>
+    <a href="class-list.html" style="pointer-events:none;" tabindex="-1">Class List</a>
+    <a href="attendance.html" style="pointer-events:none;" tabindex="-1">Attendance</a>
+    <a href="report-card.html" style="pointer-events:none;" tabindex="-1">Report Cards</a>
+    <a href="gallery.html" style="pointer-events:none;" tabindex="-1">Gallery</a>
+  </nav>
+  <header>
+    <h1 style="margin:0 auto; text-align:center; max-width:700px; font-size:2.8rem; font-weight:700; letter-spacing:1px; padding:1.2rem 0 0.5rem 0;">St Francis School Management Dashboard</h1>
+    <div style="text-align:center;margin:0 auto;max-width:700px;font-size:1.25rem;font-weight:500;color:#1976d2;border-radius:12px;padding:0.7rem 1.2rem 0.7rem 1.2rem;box-shadow:0 2px 12px rgba(79,140,255,0.10);margin-bottom:1.2rem;">
+      This school owes you a living, but you must work hard in order to collect it.
+    </div>
+  </header>
+  <div style="width:90vw;max-width:900px;height:2px;background:linear-gradient(90deg,#e0e3e7 0%,#cfd8dc 100%);margin:0 auto 2.2rem auto;border-radius:2px;box-shadow:0 1px 6px rgba(79,140,255,0.07);"></div>
+  <main>
+    <section>
+      <h2 style="text-align:center;color:#4f8cff;margin-top:2rem;">School Gallery</h2>
+      <div class="gallery-grid" id="homeGalleryGrid" style="display:flex;justify-content:flex-start;align-items:center;padding-left:5vw;">
+        <!-- Images will be loaded here by JavaScript -->
+      </div>
+    </section>
+    <!-- Add Student section moved to add-student.html -->
+    <section style="max-width:700px;margin:3rem auto 2rem auto;padding:2rem 1rem;background:#f4f6f8;border-radius:14px;box-shadow:0 2px 12px rgba(79,140,255,0.07);margin-left:5vw;">
+      <h2 style="text-align:center;color:#174ea6;margin-bottom:1.2rem;">About Us</h2>
+      <p style="font-size:1.08rem;color:#333;text-align:center;line-height:1.7;">St Francis School is dedicated to providing quality education, nurturing talent, and inspiring success. Our mission is to empower every student to reach their full potential in a supportive and innovative environment.</p>
+      <div style="text-align:center;margin-top:1.2rem;">
+        <a href="about-us.html" style="color:#4f8cff;text-decoration:underline;font-weight:600;">Learn more &rarr;</a>
+      </div>
+    </section>
+    <section style="max-width:700px;margin:2rem auto 2rem auto;padding:2rem 1rem;background:#f4f6f8;border-radius:14px;box-shadow:0 2px 12px rgba(79,140,255,0.07);margin-left:5vw;">
+      <h2 style="text-align:center;color:#174ea6;margin-bottom:1.2rem;">Contact Us</h2>
+      <p style="font-size:1.08rem;color:#333;text-align:center;line-height:1.7;">For inquiries, support, or feedback, please email us at <a href="mailto:info@stfrancisschool.edu" style="color:#4f8cff;text-decoration:underline;">info@stfrancisschool.edu</a> or call <span style="color:#4f8cff;">0976417112</span>.</p>
+      <div style="text-align:center;margin-top:1.2rem;">
+        <a href="contact-us.html" style="color:#4f8cff;text-decoration:underline;font-weight:600;">Get in touch &rarr;</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Close nav on link click (mobile)
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function() {
+        if(window.innerWidth <= 1100) {
+          document.querySelector('nav').classList.remove('open');
+        }
+      });
+    });
+    // Home page gallery images (add your filenames here)
+    const homeGalleryImages = [
+      '1.jpg',
+      'logo.jpg',
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg',
+      '5.jpg',
+      '7.jpg',
+      '8.jpg',
+      '9.jpg',
+      '10.jpg',
+      '11.jpg',
+      '12.jpg',
+      'background.jpg',
+      'new-background.jpg', // New image added to the gallery
+      // Add more image filenames here, e.g. 'event1.jpg', 'classroom.png', ...
+    ];
+    const homeGalleryGrid = document.getElementById('homeGalleryGrid');
+    if (homeGalleryGrid) {
+      homeGalleryImages.forEach(filename => {
+        const img = document.createElement('img');
+        img.src = `image/${filename}`;
+        img.alt = filename.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+        img.className = 'gallery-home-img';
+        img.loading = 'lazy';
+        homeGalleryGrid.appendChild(img);
+      });
+      // Auto-scroll carousel effect
+      let scrollAmount = 0;
+      let scrollStep = 340; // image width + gap
+      setInterval(() => {
+        if (homeGalleryGrid.scrollLeft + homeGalleryGrid.offsetWidth >= homeGalleryGrid.scrollWidth - 5) {
+          homeGalleryGrid.scrollTo({ left: 0, behavior: 'smooth' });
+          scrollAmount = 0;
+        } else {
+          scrollAmount += scrollStep;
+          homeGalleryGrid.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 2500);
+    }
+    // Dark mode toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+    // On page load, set dark mode if previously selected
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>

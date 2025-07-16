@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Class - School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Add Class</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="add-class.html" aria-current="page">Add Class</a>
+      <a href="class-list.html">Class List</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Add Class</h2>
+      <form id="classForm">
+        <label for="name">Class Name</label>
+        <input type="text" id="name" name="name" required>
+        <label for="teacher">Teacher</label>
+        <input type="text" id="teacher" name="teacher" required>
+        <label for="students">Student Names (one per line)</label>
+        <textarea id="students" name="students" rows="5" placeholder="Enter one student name per line"></textarea>
+        <button type="submit">Add Class</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 School Management System</p>
+  </footer>
+  <script src="add-class.js"></script>
+</body>
+</html>
